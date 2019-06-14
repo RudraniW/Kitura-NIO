@@ -97,7 +97,8 @@ class ClientRequestTests: KituraNetTest {
     func testClientRequestParse() {
         let options = ClientRequest.parse("https://username:password@66o.tech:8080/path?key=value")
         let testRequest = ClientRequest(options: options, callback: testCallback)
-        XCTAssertEqual(testRequest.url, "https://username:password@66o.tech:8080/path?key=value")
+        //XCTAssertEqual(testRequest.url, "https://username:password@66o.tech:8080/path?key=value")
+        XCTAssertEqual(testRequest.url, "https://66o.tech:8080/path?key=value")
 
         let options1: [ClientRequest.Options] = [ .schema("https"),
                                                   .hostname("66o.tech"),
@@ -121,14 +122,16 @@ class ClientRequestTests: KituraNetTest {
                                              .hostname("66o.tech")
         ]
         var testRequest = ClientRequest(options: options, callback: testCallback)
-        XCTAssertEqual(testRequest.url, "http://myusername:@66o.tech")
+        //XCTAssertEqual(testRequest.url, "http://myusername:@66o.tech")
+        XCTAssertEqual(testRequest.url, "http://66o.tech")
 
         // ensure an empty username works
         let options2: [ClientRequest.Options] = [ .password("mypassword"),
                                                   .hostname("66o.tech")
         ]
         testRequest = ClientRequest(options: options2, callback: testCallback)
-        XCTAssertEqual(testRequest.url, "http://:mypassword@66o.tech")
+        //XCTAssertEqual(testRequest.url, "http://:mypassword@66o.tech")
+        XCTAssertEqual(testRequest.url, "http://66o.tech")
 
         // ensure username:password works
         let options3: [ClientRequest.Options] = [ .username("myusername"),
@@ -136,7 +139,8 @@ class ClientRequestTests: KituraNetTest {
                                                   .hostname("66o.tech")
         ]
         testRequest = ClientRequest(options: options3, callback: testCallback)
-        XCTAssertEqual(testRequest.url, "http://myusername:mypassword@66o.tech")
+        //XCTAssertEqual(testRequest.url, "http://myusername:mypassword@66o.tech")
+        XCTAssertEqual(testRequest.url, "http://66o.tech")
     }
 
     func testClientRequestSyncBehavior() {

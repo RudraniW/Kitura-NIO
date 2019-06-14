@@ -145,7 +145,7 @@ public class ClientRequest {
 
     /// The request body
     var bodyData: Data?
-
+    
     /// Should SSL verification be enabled
     private var disableSSLVerification = false {
         didSet {
@@ -252,6 +252,8 @@ public class ClientRequest {
     }
 
     private func initialize(_ url: URL) {
+        var scheme = url.scheme!
+        scheme += "://"
         if let host = url.host {
             self.hostName = host
         }
@@ -266,6 +268,7 @@ public class ClientRequest {
         if let query = url.query {
             fullPath += "?"
             fullPath += query
+            fullPath += "/"
         }
         self.path = fullPath
 
@@ -275,6 +278,12 @@ public class ClientRequest {
         if let password = url.password {
             self.password = password
         }
+        if self.port != nil{
+            self.url = "\(scheme)\(self.hostName!):\(self.port!)\(fullPath)"
+        }else{
+            self.url = "\(scheme)\(self.hostName!)\(fullPath)"
+        }
+        
     }
 
     /**
@@ -356,6 +365,8 @@ public class ClientRequest {
         }
 
         // Support for Basic HTTP authentication
+        /*
+ 
         let user = self.userName ?? ""
         let pwd = self.password ?? ""
         var authenticationClause = ""
@@ -363,9 +374,9 @@ public class ClientRequest {
         if !user.isEmpty || !pwd.isEmpty {
           authenticationClause = "\(user):\(pwd)@"
         }
-
+        */
         //the url string
-        self.url = "\(theSchema)\(authenticationClause)\(hostName)\(port)\(path)"
+        self.url = "\(theSchema)\(hostName)\(port)\(path)"
         self.percentEncodedURL = percentEncode(self.url)
     }
 
